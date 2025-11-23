@@ -1,7 +1,7 @@
 import { BadRequestException, Body, Injectable } from '@nestjs/common';
 import { SignUpDto,  } from './dto/signup.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 import { Model } from 'mongoose';
 import { User } from 'src/users/schema/user.schema';
