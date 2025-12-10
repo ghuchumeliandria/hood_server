@@ -12,6 +12,9 @@ export class PostsService {
     @InjectModel('post') private postModel : Model<Post>
 ){}
 
+getPosts(){
+   return this.postModel.find()
+}
     async createPost({title , content,imageUrl} : CreatePostDto , userId : string){
 
         if(!isValidObjectId(userId) ) throw new BadRequestException("user not found ")
@@ -20,9 +23,17 @@ export class PostsService {
             title,content,imageUrl,
             authorId: userId
         })
-        console.log(userId)
 
         return{message : "post created successfully" , newPost}
     }
+
+    async deletePost(postId : string ){
+        if(!isValidObjectId(postId) ) throw new BadRequestException("Invalid id")
+        
+        const post = await this.postModel.findByIdAndDelete(postId)
+
+        return {message : 'post deleted successfully' , post}
+    }
+
 
 }

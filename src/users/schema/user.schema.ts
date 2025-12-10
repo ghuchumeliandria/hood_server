@@ -33,11 +33,8 @@ export class User {
     })
     avatar : string
     
-    @Prop({
-        type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'post' }],
-        default : []
-    })
-    posts : mongoose.Schema.Types.ObjectId[]
+    @Prop({ type: [{ type: Types.ObjectId, ref: 'user' }] })
+    following: Types.ObjectId[];
 }
 
 export const userSchema = SchemaFactory.createForClass(User)

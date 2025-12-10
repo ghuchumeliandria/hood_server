@@ -1,15 +1,36 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { IsAuthGuard } from 'src/auth/guards/IsAuth.Guard';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UserId } from 'src/decorators/userId';
+import { IsPostAuthor } from './guards/IsPostAuthor.guard';
 @UseGuards(IsAuthGuard)
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @Get('')
+  getPosts(){
+    return this.postsService.getPosts()
+  }
+
+  @Get('feed')
+
+ 
   @Post('create-post')
   createUser(@Body() createPostDto : CreatePostDto , @UserId()  userId : string ){
     return this.postsService.createPost(createPostDto , userId)
   }
+
+
+
+  @UseGuards(IsPostAuthor)
+  @Delete("delete-post/:id")
+  deletePost(@Param('id') postId : string ){
+    return this.postsService.deletePost(postId)
+  }
+
+
+
+
 }

@@ -18,17 +18,31 @@ const posts_service_1 = require("./posts.service");
 const IsAuth_Guard_1 = require("../auth/guards/IsAuth.Guard");
 const create_post_dto_1 = require("./dto/create-post.dto");
 const userId_1 = require("../decorators/userId");
+const IsPostAuthor_guard_1 = require("./guards/IsPostAuthor.guard");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
         this.postsService = postsService;
     }
+    getPosts() {
+        return this.postsService.getPosts();
+    }
     createUser(createPostDto, userId) {
         return this.postsService.createPost(createPostDto, userId);
+    }
+    deletePost(postId) {
+        return this.postsService.deletePost(postId);
     }
 };
 exports.PostsController = PostsController;
 __decorate([
+    (0, common_1.Get)(''),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getPosts", null);
+__decorate([
+    (0, common_1.Get)('feed'),
     (0, common_1.Post)('create-post'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, userId_1.UserId)()),
@@ -36,6 +50,14 @@ __decorate([
     __metadata("design:paramtypes", [create_post_dto_1.CreatePostDto, String]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "createUser", null);
+__decorate([
+    (0, common_1.UseGuards)(IsPostAuthor_guard_1.IsPostAuthor),
+    (0, common_1.Delete)("delete-post/:id"),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "deletePost", null);
 exports.PostsController = PostsController = __decorate([
     (0, common_1.UseGuards)(IsAuth_Guard_1.IsAuthGuard),
     (0, common_1.Controller)('posts'),

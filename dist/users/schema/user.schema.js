@@ -8,20 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userSchema = exports.User = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
-const mongoose_2 = __importDefault(require("mongoose"));
+const mongoose_2 = require("mongoose");
 let User = class User {
     fullname;
     email;
     password;
     role;
     avatar;
-    posts;
+    following;
 };
 exports.User = User;
 __decorate([
@@ -63,12 +60,9 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "avatar", void 0);
 __decorate([
-    (0, mongoose_1.Prop)({
-        type: [{ type: mongoose_2.default.Schema.Types.ObjectId, ref: 'post' }],
-        default: []
-    }),
+    (0, mongoose_1.Prop)({ type: [{ type: mongoose_2.Types.ObjectId, ref: 'user' }] }),
     __metadata("design:type", Array)
-], User.prototype, "posts", void 0);
+], User.prototype, "following", void 0);
 exports.User = User = __decorate([
     (0, mongoose_1.Schema)({ timestamps: true })
 ], User);

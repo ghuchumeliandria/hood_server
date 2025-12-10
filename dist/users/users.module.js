@@ -10,11 +10,21 @@ exports.UsersModule = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const users_controller_1 = require("./users.controller");
+const config_1 = require("@nestjs/config");
+const mongoose_1 = require("@nestjs/mongoose");
+const user_schema_1 = require("./schema/user.schema");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
 exports.UsersModule = UsersModule = __decorate([
     (0, common_1.Module)({
+        imports: [config_1.ConfigModule.forRoot({
+                isGlobal: true
+            }),
+            mongoose_1.MongooseModule.forFeature([
+                { schema: user_schema_1.userSchema, name: 'user' },
+            ]),
+        ],
         controllers: [users_controller_1.UsersController],
         providers: [users_service_1.UsersService],
     })

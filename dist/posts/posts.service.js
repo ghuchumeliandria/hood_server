@@ -23,6 +23,9 @@ let PostsService = class PostsService {
         this.userModel = userModel;
         this.postModel = postModel;
     }
+    getPosts() {
+        return this.postModel.find();
+    }
     async createPost({ title, content, imageUrl }, userId) {
         if (!(0, mongoose_2.isValidObjectId)(userId))
             throw new common_1.BadRequestException("user not found ");
@@ -30,8 +33,13 @@ let PostsService = class PostsService {
             title, content, imageUrl,
             authorId: userId
         });
-        console.log(userId);
         return { message: "post created successfully", newPost };
+    }
+    async deletePost(postId) {
+        if (!(0, mongoose_2.isValidObjectId)(postId))
+            throw new common_1.BadRequestException("Invalid id");
+        const post = await this.postModel.findByIdAndDelete(postId);
+        return { message: 'post deleted successfully', post };
     }
 };
 exports.PostsService = PostsService;

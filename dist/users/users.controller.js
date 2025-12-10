@@ -18,6 +18,7 @@ const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const IsAuth_Guard_1 = require("../auth/guards/IsAuth.Guard");
+const userId_1 = require("../decorators/userId");
 let UsersController = class UsersController {
     usersService;
     constructor(usersService) {
@@ -25,6 +26,9 @@ let UsersController = class UsersController {
     }
     create(createUserDto) {
         return this.usersService.create(createUserDto);
+    }
+    followUser(targetUserId, userId) {
+        return this.usersService.followUser(targetUserId, userId);
     }
     findAll() {
         return this.usersService.findAll();
@@ -47,6 +51,14 @@ __decorate([
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "create", null);
+__decorate([
+    (0, common_1.Patch)("follow"),
+    __param(0, (0, common_1.Body)('targetUserId')),
+    __param(1, (0, userId_1.UserId)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String, String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "followUser", null);
 __decorate([
     (0, common_1.Get)(),
     __metadata("design:type", Function),

@@ -5,7 +5,7 @@ export declare class User {
     password: string;
     role: string;
     avatar: string;
-    posts: mongoose.Schema.Types.ObjectId[];
+    following: Types.ObjectId[];
 }
 export declare const userSchema: mongoose.Schema<User, mongoose.Model<User, any, any, any, mongoose.Document<unknown, any, User, any, {}> & User & {
     _id: Types.ObjectId;
