@@ -23,6 +23,14 @@ export declare class PostsService {
             __v: number;
         };
     }>;
+    getFeedPosts(userId: string): Promise<{
+        message: string;
+        posts: (import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {
+            _id: Types.ObjectId;
+        } & {
+            __v: number;
+        })[];
+    }>;
     deletePost(postId: string): Promise<{
         message: string;
         post: (import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {

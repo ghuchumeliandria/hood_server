@@ -13,9 +13,11 @@ export class PostsController {
   getPosts(){
     return this.postsService.getPosts()
   }
-
-  @Get('feed')
-
+  
+  @Get('feed')  
+  getFeedPosts(@UserId() userId : string){
+    return this.postsService.getFeedPosts(userId)
+  }
  
   @Post('create-post')
   createUser(@Body() createPostDto : CreatePostDto , @UserId()  userId : string ){

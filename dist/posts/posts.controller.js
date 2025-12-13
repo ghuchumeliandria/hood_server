@@ -27,6 +27,9 @@ let PostsController = class PostsController {
     getPosts() {
         return this.postsService.getPosts();
     }
+    getFeedPosts(userId) {
+        return this.postsService.getFeedPosts(userId);
+    }
     createUser(createPostDto, userId) {
         return this.postsService.createPost(createPostDto, userId);
     }
@@ -43,6 +46,12 @@ __decorate([
 ], PostsController.prototype, "getPosts", null);
 __decorate([
     (0, common_1.Get)('feed'),
+    __param(0, (0, userId_1.UserId)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PostsController.prototype, "getFeedPosts", null);
+__decorate([
     (0, common_1.Post)('create-post'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, userId_1.UserId)()),

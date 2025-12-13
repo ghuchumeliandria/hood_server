@@ -27,6 +27,23 @@ getPosts(){
         return{message : "post created successfully" , newPost}
     }
 
+    async getFeedPosts(userId : string){
+        if(!isValidObjectId(userId)) throw new BadRequestException("Invalid id")
+        const user = await this.userModel.findById(userId).select("following")
+
+        if(!user) throw new BadRequestException("user not found")
+
+            
+            const followingIds = user.following.map(id => id.toString())
+
+  const posts = await this.postModel
+    .find({ authorId: { $in: followingIds } })
+    .sort({ createdAt: -1 })
+
+    return {message : "all posts successfully return" , posts}
+        
+    }
+
     async deletePost(postId : string ){
         if(!isValidObjectId(postId) ) throw new BadRequestException("Invalid id")
         

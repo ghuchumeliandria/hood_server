@@ -35,6 +35,18 @@ let PostsService = class PostsService {
         });
         return { message: "post created successfully", newPost };
     }
+    async getFeedPosts(userId) {
+        if (!(0, mongoose_2.isValidObjectId)(userId))
+            throw new common_1.BadRequestException("Invalid id");
+        const user = await this.userModel.findById(userId).select("following");
+        if (!user)
+            throw new common_1.BadRequestException("user not found");
+        const followingIds = user.following.map(id => id.toString());
+        const posts = await this.postModel
+            .find({ authorId: { $in: followingIds } })
+            .sort({ createdAt: -1 });
+        return { message: "all posts successfully return", posts };
+    }
     async deletePost(postId) {
         if (!(0, mongoose_2.isValidObjectId)(postId))
             throw new common_1.BadRequestException("Invalid id");
