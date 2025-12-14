@@ -13,7 +13,6 @@ exports.CreatePostDto = void 0;
 const class_validator_1 = require("class-validator");
 class CreatePostDto {
     title;
-    content;
     imageUrl;
 }
 exports.CreatePostDto = CreatePostDto;
@@ -22,11 +21,6 @@ __decorate([
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreatePostDto.prototype, "title", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    __metadata("design:type", String)
-], CreatePostDto.prototype, "content", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),

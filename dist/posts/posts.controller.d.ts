@@ -12,14 +12,11 @@ export declare class PostsController {
     } & {
         __v: number;
     }, {}, import("./schema/post.schema").Post, "find", {}>;
-    getFeedPosts(userId: string): Promise<{
-        message: string;
-        posts: (import("mongoose").Document<unknown, {}, import("./schema/post.schema").Post, {}, {}> & import("./schema/post.schema").Post & {
-            _id: import("mongoose").Types.ObjectId;
-        } & {
-            __v: number;
-        })[];
-    }>;
+    getFeedPosts(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("./schema/post.schema").Post, {}, {}> & import("./schema/post.schema").Post & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    })[]>;
     createUser(createPostDto: CreatePostDto, userId: string): Promise<{
         message: string;
         newPost: import("mongoose").Document<unknown, {}, import("./schema/post.schema").Post, {}, {}> & import("./schema/post.schema").Post & {

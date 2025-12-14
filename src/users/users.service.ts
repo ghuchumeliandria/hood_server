@@ -8,7 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class UsersService {
 
-  constructor(@InjectModel('user') private userModel : Model<User>,){}
+  constructor(@InjectModel('User') private userModel : Model<User>,){}
 
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
@@ -22,7 +22,14 @@ export class UsersService {
         return {message : "user successfully followed" , updatedUser}
   }
 
+  async  getUser(userId : string){
+    if(!isValidObjectId(userId)) throw new BadRequestException("invalid user id")
 
+      const user = await this.userModel.findById(userId)
+      if(!user) throw new BadRequestException("user not found")
+
+        return user
+  }
 
   findAll() {
     return `This action returns all users`;

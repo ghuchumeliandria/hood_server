@@ -14,6 +14,11 @@ export declare class UsersService {
             __v: number;
         }) | null;
     }>;
+    getUser(userId: string): Promise<import("mongoose").Document<unknown, {}, User, {}, {}> & User & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }>;
     findAll(): string;
     findOne(id: number): string;
     update(id: number, updateUserDto: UpdateUserDto): string;

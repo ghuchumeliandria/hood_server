@@ -26,11 +26,11 @@ let PostsService = class PostsService {
     getPosts() {
         return this.postModel.find();
     }
-    async createPost({ title, content, imageUrl }, userId) {
+    async createPost({ title, imageUrl }, userId) {
         if (!(0, mongoose_2.isValidObjectId)(userId))
             throw new common_1.BadRequestException("user not found ");
         const newPost = await this.postModel.create({
-            title, content, imageUrl,
+            title, imageUrl,
             authorId: userId
         });
         return { message: "post created successfully", newPost };
@@ -40,12 +40,14 @@ let PostsService = class PostsService {
             throw new common_1.BadRequestException("Invalid id");
         const user = await this.userModel.findById(userId).select("following");
         if (!user)
-            throw new common_1.BadRequestException("user not found");
+            throw new common_1.BadRequestException("User not found");
         const followingIds = user.following.map(id => id.toString());
+        const feedIds = [userId, ...followingIds];
         const posts = await this.postModel
-            .find({ authorId: { $in: followingIds } })
-            .sort({ createdAt: -1 });
-        return { message: "all posts successfully return", posts };
+            .find({ authorId: { $in: feedIds } })
+            .sort({ createdAt: -1 }).populate('authorId', 'fullname avatar');
+        ;
+        return posts;
     }
     async deletePost(postId) {
         if (!(0, mongoose_2.isValidObjectId)(postId))

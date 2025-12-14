@@ -12,10 +12,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.postSchema = exports.Post = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const user_schema_1 = require("../../users/schema/user.schema");
 let Post = class Post {
     authorId;
     title;
-    content;
     imageUrl;
     likes;
 };
@@ -23,7 +23,7 @@ exports.Post = Post;
 __decorate([
     (0, mongoose_1.Prop)({
         type: mongoose_2.Types.ObjectId,
-        ref: "User",
+        ref: user_schema_1.User.name,
         required: true
     }),
     __metadata("design:type", mongoose_2.Types.ObjectId)
@@ -35,13 +35,6 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Post.prototype, "title", void 0);
-__decorate([
-    (0, mongoose_1.Prop)({
-        type: String,
-        required: false
-    }),
-    __metadata("design:type", String)
-], Post.prototype, "content", void 0);
 __decorate([
     (0, mongoose_1.Prop)({
         type: String,

@@ -2,7 +2,6 @@ import { Types } from "mongoose";
 export declare class Post {
     authorId: Types.ObjectId;
     title: string;
-    content: string;
     imageUrl: string;
     likes: [string];
 }

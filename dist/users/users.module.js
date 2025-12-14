@@ -22,7 +22,7 @@ exports.UsersModule = UsersModule = __decorate([
                 isGlobal: true
             }),
             mongoose_1.MongooseModule.forFeature([
-                { schema: user_schema_1.userSchema, name: 'user' },
+                { schema: user_schema_1.userSchema, name: 'User' },
             ]),
         ],
         controllers: [users_controller_1.UsersController],

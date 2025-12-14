@@ -21,9 +21,9 @@ export class UsersController {
     return this.usersService.followUser(targetUserId , userId)
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Get("profile")
+  getUser(@UserId() userId : string) {
+    return this.usersService.getUser(userId);
   }
 
   @Get(':id')

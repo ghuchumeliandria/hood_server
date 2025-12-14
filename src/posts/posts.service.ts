@@ -15,12 +15,12 @@ export class PostsService {
 getPosts(){
    return this.postModel.find()
 }
-    async createPost({title , content,imageUrl} : CreatePostDto , userId : string){
+    async createPost({title ,imageUrl} : CreatePostDto , userId : string){
 
         if(!isValidObjectId(userId) ) throw new BadRequestException("user not found ")
 
         const newPost = await this.postModel.create({
-            title,content,imageUrl,
+            title,imageUrl,
             authorId: userId
         })
 
@@ -28,19 +28,20 @@ getPosts(){
     }
 
     async getFeedPosts(userId : string){
-        if(!isValidObjectId(userId)) throw new BadRequestException("Invalid id")
-        const user = await this.userModel.findById(userId).select("following")
+        if (!isValidObjectId(userId)) throw new BadRequestException("Invalid id");
 
-        if(!user) throw new BadRequestException("user not found")
-
-            
-            const followingIds = user.following.map(id => id.toString())
-
-  const posts = await this.postModel
-    .find({ authorId: { $in: followingIds } })
-    .sort({ createdAt: -1 })
-
-    return {message : "all posts successfully return" , posts}
+        const user = await this.userModel.findById(userId).select("following");
+        if (!user) throw new BadRequestException("User not found");
+      
+        const followingIds = user.following.map(id => id.toString());
+        const feedIds = [userId, ...followingIds]; 
+      
+        const posts = await this.postModel
+          .find({ authorId: { $in: feedIds } })
+          .sort({ createdAt: -1 }).populate('authorId', 'fullname avatar');;
+      
+        return posts
+        
         
     }
 
@@ -51,6 +52,7 @@ getPosts(){
 
         return {message : 'post deleted successfully' , post}
     }
+
 
 
 }

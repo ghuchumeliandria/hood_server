@@ -32,6 +32,14 @@ let UsersService = class UsersService {
         }, { new: true });
         return { message: "user successfully followed", updatedUser };
     }
+    async getUser(userId) {
+        if (!(0, mongoose_1.isValidObjectId)(userId))
+            throw new common_1.BadRequestException("invalid user id");
+        const user = await this.userModel.findById(userId);
+        if (!user)
+            throw new common_1.BadRequestException("user not found");
+        return user;
+    }
     findAll() {
         return `This action returns all users`;
     }
@@ -48,7 +56,7 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_2.InjectModel)('user')),
+    __param(0, (0, mongoose_2.InjectModel)('User')),
     __metadata("design:paramtypes", [mongoose_1.Model])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

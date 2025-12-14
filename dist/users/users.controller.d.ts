@@ -13,7 +13,11 @@ export declare class UsersController {
             __v: number;
         }) | null;
     }>;
-    findAll(): string;
+    getUser(userId: string): Promise<import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}, {}> & import("./schema/user.schema").User & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    }>;
     findOne(id: string): string;
     update(id: string, updateUserDto: UpdateUserDto): string;
     remove(id: string): string;

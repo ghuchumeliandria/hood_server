@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Types } from "mongoose";
+import { User } from "src/users/schema/user.schema";
 
 @Schema({timestamps : true})
 
 export class Post {
     @Prop({
         type : Types.ObjectId,
-        ref : "User",
+        ref : User.name,
         required : true
     })
     authorId : Types.ObjectId
@@ -17,11 +18,6 @@ export class Post {
     })
     title : string
 
-    @Prop({
-        type : String,
-        required : false
-    })
-    content : string
 
     @Prop({
         type : String,

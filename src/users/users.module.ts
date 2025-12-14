@@ -10,7 +10,7 @@ import { userSchema } from './schema/user.schema';
         isGlobal : true
       }),
        MongooseModule.forFeature([
-            {schema : userSchema , name : 'user'},
+            {schema : userSchema , name : 'User'},
           ]),
         ],
   controllers: [UsersController],
