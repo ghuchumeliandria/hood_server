@@ -20,7 +20,10 @@ export class UsersController {
   followUser(@Body('targetUserId') targetUserId : string , @UserId() userId : string ){
     return this.usersService.followUser(targetUserId , userId)
   }
-
+  @Get("all-users")
+  getAllUsers(@UserId() userId : string){
+    return this.usersService.getAllUsers(userId)
+  }
   @Get("profile")
   getUser(@UserId() userId : string) {
     return this.usersService.getUser(userId);

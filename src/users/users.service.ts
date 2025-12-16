@@ -22,6 +22,14 @@ export class UsersService {
         return {message : "user successfully followed" , updatedUser}
   }
 
+  async getAllUsers(userId : string){
+      if(!isValidObjectId(userId)) throw new BadRequestException("invalid id")
+
+        const users = await this.userModel.find({_id: { $ne: userId } })
+
+      return users
+  }
+
   async  getUser(userId : string){
     if(!isValidObjectId(userId)) throw new BadRequestException("invalid user id")
 

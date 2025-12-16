@@ -13,6 +13,11 @@ export declare class UsersController {
             __v: number;
         }) | null;
     }>;
+    getAllUsers(userId: string): Promise<(import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}, {}> & import("./schema/user.schema").User & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    })[]>;
     getUser(userId: string): Promise<import("mongoose").Document<unknown, {}, import("./schema/user.schema").User, {}, {}> & import("./schema/user.schema").User & {
         _id: import("mongoose").Types.ObjectId;
     } & {

@@ -24,7 +24,10 @@ getPosts(){
             authorId: userId
         })
 
-        return{message : "post created successfully" , newPost}
+        const populatedPost = await newPost.populate('authorId', 'fullname avatar')
+
+
+        return{message : "post created successfully" , populatedPost}
     }
 
     async getFeedPosts(userId : string){

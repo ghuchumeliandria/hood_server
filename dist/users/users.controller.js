@@ -30,6 +30,9 @@ let UsersController = class UsersController {
     followUser(targetUserId, userId) {
         return this.usersService.followUser(targetUserId, userId);
     }
+    getAllUsers(userId) {
+        return this.usersService.getAllUsers(userId);
+    }
     getUser(userId) {
         return this.usersService.getUser(userId);
     }
@@ -59,6 +62,13 @@ __decorate([
     __metadata("design:paramtypes", [String, String]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "followUser", null);
+__decorate([
+    (0, common_1.Get)("all-users"),
+    __param(0, (0, userId_1.UserId)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "getAllUsers", null);
 __decorate([
     (0, common_1.Get)("profile"),
     __param(0, (0, userId_1.UserId)()),

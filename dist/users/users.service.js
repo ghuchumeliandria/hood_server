@@ -32,6 +32,12 @@ let UsersService = class UsersService {
         }, { new: true });
         return { message: "user successfully followed", updatedUser };
     }
+    async getAllUsers(userId) {
+        if (!(0, mongoose_1.isValidObjectId)(userId))
+            throw new common_1.BadRequestException("invalid id");
+        const users = await this.userModel.find({ _id: { $ne: userId } });
+        return users;
+    }
     async getUser(userId) {
         if (!(0, mongoose_1.isValidObjectId)(userId))
             throw new common_1.BadRequestException("invalid user id");

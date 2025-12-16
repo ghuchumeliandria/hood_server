@@ -17,11 +17,11 @@ export declare class PostsService {
     }, {}, Post, "find", {}>;
     createPost({ title, imageUrl }: CreatePostDto, userId: string): Promise<{
         message: string;
-        newPost: import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {
+        populatedPost: Omit<import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {
             _id: Types.ObjectId;
         } & {
             __v: number;
-        };
+        }, never>;
     }>;
     getFeedPosts(userId: string): Promise<(import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {
         _id: Types.ObjectId;

@@ -19,11 +19,11 @@ export declare class PostsController {
     })[]>;
     createUser(createPostDto: CreatePostDto, userId: string): Promise<{
         message: string;
-        newPost: import("mongoose").Document<unknown, {}, import("./schema/post.schema").Post, {}, {}> & import("./schema/post.schema").Post & {
+        populatedPost: Omit<import("mongoose").Document<unknown, {}, import("./schema/post.schema").Post, {}, {}> & import("./schema/post.schema").Post & {
             _id: import("mongoose").Types.ObjectId;
         } & {
             __v: number;
-        };
+        }, never>;
     }>;
     deletePost(postId: string): Promise<{
         message: string;

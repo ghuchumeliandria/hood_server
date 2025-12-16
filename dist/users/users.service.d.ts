@@ -14,6 +14,11 @@ export declare class UsersService {
             __v: number;
         }) | null;
     }>;
+    getAllUsers(userId: string): Promise<(import("mongoose").Document<unknown, {}, User, {}, {}> & User & {
+        _id: import("mongoose").Types.ObjectId;
+    } & {
+        __v: number;
+    })[]>;
     getUser(userId: string): Promise<import("mongoose").Document<unknown, {}, User, {}, {}> & User & {
         _id: import("mongoose").Types.ObjectId;
     } & {
