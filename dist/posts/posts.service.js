@@ -46,15 +46,37 @@ let PostsService = class PostsService {
         const feedIds = [userId, ...followingIds];
         const posts = await this.postModel
             .find({ authorId: { $in: feedIds } })
-            .sort({ createdAt: -1 }).populate('authorId', 'fullname avatar');
-        ;
-        return posts;
+            .sort({ createdAt: -1 }).populate('authorId', 'fullname avatar').lean();
+        return posts.map(post => ({
+            ...post,
+            isLiked: post.likes.some((likeId) => likeId.toString() === userId),
+            likesCount: post.likes.length,
+        }));
     }
     async deletePost(postId) {
         if (!(0, mongoose_2.isValidObjectId)(postId))
             throw new common_1.BadRequestException("Invalid id");
         const post = await this.postModel.findByIdAndDelete(postId);
         return { message: 'post deleted successfully', post };
+    }
+    async postLike(postId, userId) {
+        if (!(0, mongoose_2.isValidObjectId)(postId) || !(0, mongoose_2.isValidObjectId)(userId))
+            throw new common_1.BadRequestException("invalid id");
+        const post = await this.postModel.findById(postId);
+        if (!post)
+            throw new common_1.NotFoundException('post not found');
+        const isLiked = post.likes.includes(userId);
+        if (isLiked) {
+            await this.postModel.findByIdAndUpdate(postId, {
+                $pull: { likes: userId }
+            });
+        }
+        else {
+            await this.postModel.findByIdAndUpdate(postId, {
+                $addToSet: { likes: userId }
+            });
+        }
+        return { liked: !isLiked };
     }
 };
 exports.PostsService = PostsService;

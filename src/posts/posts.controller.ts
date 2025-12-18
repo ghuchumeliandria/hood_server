@@ -24,7 +24,10 @@ export class PostsController {
     return this.postsService.createPost(createPostDto , userId)
   }
 
-
+  @Post('post-like/:id')
+  postLike(@Param('id') postId : string , @UserId() userId : string , ){
+    return this.postsService.postLike(postId , userId)
+  }
 
   @UseGuards(IsPostAuthor)
   @Delete("delete-post/:id")

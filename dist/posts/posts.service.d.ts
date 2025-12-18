@@ -23,11 +23,16 @@ export declare class PostsService {
             __v: number;
         }, never>;
     }>;
-    getFeedPosts(userId: string): Promise<(import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {
+    getFeedPosts(userId: string): Promise<{
+        isLiked: boolean;
+        likesCount: 1;
+        authorId: Types.ObjectId;
+        title: string;
+        imageUrl: string;
+        likes: [string];
         _id: Types.ObjectId;
-    } & {
         __v: number;
-    })[]>;
+    }[]>;
     deletePost(postId: string): Promise<{
         message: string;
         post: (import("mongoose").Document<unknown, {}, Post, {}, {}> & Post & {
@@ -35,5 +40,8 @@ export declare class PostsService {
         } & {
             __v: number;
         }) | null;
+    }>;
+    postLike(postId: string, userId: string): Promise<{
+        liked: boolean;
     }>;
 }

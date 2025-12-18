@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model, Types } from 'mongoose';
 import { User } from 'src/users/schema/user.schema';
@@ -41,9 +41,15 @@ getPosts(){
       
         const posts = await this.postModel
           .find({ authorId: { $in: feedIds } })
-          .sort({ createdAt: -1 }).populate('authorId', 'fullname avatar');;
+          .sort({ createdAt: -1 }).populate('authorId', 'fullname avatar').lean();
       
-        return posts
+          return posts.map(post => ({
+            ...post,
+            isLiked: post.likes.some(
+              (likeId: any) => likeId.toString() === userId
+            ),
+            likesCount: post.likes.length, 
+          }));
         
         
     }
@@ -56,6 +62,29 @@ getPosts(){
         return {message : 'post deleted successfully' , post}
     }
 
+
+    async postLike(postId : string , userId : string){
+        if(!isValidObjectId(postId) || !isValidObjectId(userId)) throw new BadRequestException("invalid id")
+
+            const post = await this.postModel.findById(postId)
+            if (!post) throw new NotFoundException('post not found')
+
+            const isLiked = post.likes.includes(userId)
+
+            if(isLiked){
+                await this.postModel.findByIdAndUpdate(postId , {
+                    $pull : {likes : userId}
+                }
+            )
+            } else {
+                await this.postModel.findByIdAndUpdate(postId , {
+                    $addToSet : {likes : userId}
+                })
+            }
+
+            return {liked : !isLiked}
+
+    }
 
 
 }

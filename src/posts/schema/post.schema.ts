@@ -30,6 +30,8 @@ export class Post {
         default : []
     })
     likes : [string]
+
+    
 }
 
 export const postSchema = SchemaFactory.createForClass(Post)
