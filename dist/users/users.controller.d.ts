@@ -25,5 +25,5 @@ export declare class UsersController {
     }>;
     findOne(id: string): string;
     update(id: string, updateUserDto: UpdateUserDto): string;
-    remove(id: string): string;
+    remove(id: string): Promise<string>;
 }

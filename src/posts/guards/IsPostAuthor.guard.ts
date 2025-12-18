@@ -3,7 +3,6 @@ import { isValidObjectId, Model } from "mongoose";
 import { Post } from "../schema/post.schema";
 import { BadRequestException, CanActivate, ExecutionContext } from "@nestjs/common";
 import { User } from "src/users/schema/user.schema";
-import { Observable } from "rxjs";
 
 
 

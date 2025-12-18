@@ -13,6 +13,7 @@ const users_controller_1 = require("./users.controller");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
 const user_schema_1 = require("./schema/user.schema");
+const post_schema_1 = require("../posts/schema/post.schema");
 let UsersModule = class UsersModule {
 };
 exports.UsersModule = UsersModule;
@@ -23,6 +24,7 @@ exports.UsersModule = UsersModule = __decorate([
             }),
             mongoose_1.MongooseModule.forFeature([
                 { schema: user_schema_1.userSchema, name: 'User' },
+                { schema: post_schema_1.postSchema, name: 'post' },
             ]),
         ],
         controllers: [users_controller_1.UsersController],

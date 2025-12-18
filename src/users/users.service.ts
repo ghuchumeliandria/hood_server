@@ -1,14 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { isValidObjectId, Model } from 'mongoose';
 import { User } from './schema/user.schema';
 import { InjectModel } from '@nestjs/mongoose';
+import { Post } from 'src/posts/schema/post.schema';
 
 @Injectable()
 export class UsersService {
 
-  constructor(@InjectModel('User') private userModel : Model<User>,){}
+  constructor(@InjectModel('User') private userModel : Model<User>,
+ @InjectModel('post') private postModel : Model<Post>
+){}
 
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
@@ -51,7 +54,18 @@ export class UsersService {
     return `This action updates a #${id} user`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+ async remove(id: string) {
+    if(!isValidObjectId(id)) throw new BadRequestException("invalid id")
+      const user = await this.userModel.findById(id)
+    if (!user) throw new NotFoundException("User not found")
+      await this.postModel.deleteMany({authorId : id})
+    await this.postModel.updateMany(
+      { likes: user._id },
+      { $pull: { likes: user._id } }
+    );
+    await this.userModel.findByIdAndDelete(id)
+    
+
+    return `User and his posts successfully deleted`;
   }
 }

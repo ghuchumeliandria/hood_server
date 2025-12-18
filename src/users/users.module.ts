@@ -4,6 +4,7 @@ import { UsersController } from './users.controller';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { userSchema } from './schema/user.schema';
+import { postSchema } from 'src/posts/schema/post.schema';
 
 @Module({
   imports : [ConfigModule.forRoot({
@@ -11,6 +12,7 @@ import { userSchema } from './schema/user.schema';
       }),
        MongooseModule.forFeature([
             {schema : userSchema , name : 'User'},
+            {schema : postSchema , name : 'post'},
           ]),
         ],
   controllers: [UsersController],

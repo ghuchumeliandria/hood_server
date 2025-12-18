@@ -2,9 +2,11 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Model } from 'mongoose';
 import { User } from './schema/user.schema';
+import { Post } from 'src/posts/schema/post.schema';
 export declare class UsersService {
     private userModel;
-    constructor(userModel: Model<User>);
+    private postModel;
+    constructor(userModel: Model<User>, postModel: Model<Post>);
     create(createUserDto: CreateUserDto): string;
     followUser(targetUserId: string, userId: string): Promise<{
         message: string;
@@ -27,5 +29,5 @@ export declare class UsersService {
     findAll(): string;
     findOne(id: number): string;
     update(id: number, updateUserDto: UpdateUserDto): string;
-    remove(id: number): string;
+    remove(id: string): Promise<string>;
 }

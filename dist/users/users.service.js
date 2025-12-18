@@ -18,8 +18,10 @@ const mongoose_1 = require("mongoose");
 const mongoose_2 = require("@nestjs/mongoose");
 let UsersService = class UsersService {
     userModel;
-    constructor(userModel) {
+    postModel;
+    constructor(userModel, postModel) {
         this.userModel = userModel;
+        this.postModel = postModel;
     }
     create(createUserDto) {
         return 'This action adds a new user';
@@ -55,14 +57,24 @@ let UsersService = class UsersService {
     update(id, updateUserDto) {
         return `This action updates a #${id} user`;
     }
-    remove(id) {
-        return `This action removes a #${id} user`;
+    async remove(id) {
+        if (!(0, mongoose_1.isValidObjectId)(id))
+            throw new common_1.BadRequestException("invalid id");
+        const user = await this.userModel.findById(id);
+        if (!user)
+            throw new common_1.NotFoundException("User not found");
+        await this.postModel.deleteMany({ authorId: id });
+        await this.postModel.updateMany({ likes: user._id }, { $pull: { likes: user._id } });
+        await this.userModel.findByIdAndDelete(id);
+        return `User and his posts successfully deleted`;
     }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_2.InjectModel)('User')),
-    __metadata("design:paramtypes", [mongoose_1.Model])
+    __param(1, (0, mongoose_2.InjectModel)('post')),
+    __metadata("design:paramtypes", [mongoose_1.Model,
+        mongoose_1.Model])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map
